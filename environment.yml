@@ -1,0 +1,6 @@
+name: /Users/shreya/Desktop/Projects/aws-lakehouse-mini-platform/env
+channels:
+  - defaults
+dependencies:
+  - python=3.10
+prefix: /Users/shreya/Desktop/Projects/aws-lakehouse-mini-platform/env
