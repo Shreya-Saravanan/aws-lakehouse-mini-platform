@@ -1,9 +1,46 @@
 # AWS Lakehouse Mini Platform
 
 ## Overview
-A mini data lakehouse platform for financial data processing using AWS services.
+A mini data lakehouse platform for financial data processing using AWS services. This project demonstrates a complete data pipeline from raw CSV ingestion through ETL processing to analytics-ready data using AWS Glue, S3, and Athena.
+
+## Architecture Overview
+
+This project implements a modern AWS Lakehouse architecture for finance data analytics:
+
+```
+┌─────────────┐      ┌──────────────┐      ┌─────────────┐      ┌──────────┐
+│   Raw CSV   │─────>│  AWS Glue    │─────>│  Curated    │─────>│  Amazon  │
+│   (S3)      │      │  Spark ETL   │      │  Parquet    │      │  Athena  │
+└─────────────┘      └──────────────┘      │  (S3)       │      └──────────┘
+                             │              └─────────────┘            │
+                             │                     │                   │
+                             v                     v                   v
+                     ┌──────────────────────────────────────────────────┐
+                     │          AWS Glue Data Catalog                   │
+                     │       (Schema & Partition Metadata)              │
+                     └──────────────────────────────────────────────────┘
+```
+
+### Data Flow
+
+1. **Ingestion**: Raw finance CSV files (customers, accounts, transactions) are uploaded to S3 raw layer
+2. **Transformation**: AWS Glue Spark ETL job performs:
+   - Data cleaning and deduplication
+   - CSV to Parquet conversion
+   - Schema validation and enrichment
+   - Date-based partitioning
+3. **Cataloging**: Glue Crawlers scan curated data and create/update table metadata in Glue Data Catalog
+4. **Analytics**: Amazon Athena queries the curated layer for business intelligence and data quality checks
+
+### Key Features
+
+- **Partitioned Storage**: Date-based partitioning for optimized query performance
+- **Columnar Format**: Parquet format for efficient compression and query execution
+- **Data Quality**: Built-in validation rules and quality checks at the ETL layer
+- **Serverless**: Fully managed AWS services with pay-per-query pricing
 
 ## Project Structure
+```
 aws-lakehouse-mini-platform/
 ├── data/
 │   ├── raw/                        # Raw CSV files
@@ -15,7 +52,13 @@ aws-lakehouse-mini-platform/
 ├── glue_jobs/                      # AWS Glue ETL scripts
 ├── athena_queries/                 # SQL queries for analysis
 ├── redshift/                       # Redshift configurations
-└── docs/                           # Documentation
+├── docs/
+│   ├── architecture/
+│   │   ├── architecture.md                 # Architecture documentation
+│   │   └── aws_lakehouse_architecture.png  # Architecture diagram
+│   └── screenshots/                        # AWS console screenshots
+└── environment.yml                 # Conda environment file
+```
 
 
 ## Data Schema
