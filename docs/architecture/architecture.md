@@ -1,5 +1,9 @@
 # AWS Lakehouse Architecture
 
+## Architecture Diagram
+
+![AWS Lakehouse Architecture](aws_lakehouse_architecture.png)
+
 ## Data Pipeline Flow
 
 ┌─────────────────────────────────────────────────────────────────┐
